@@ -2,12 +2,24 @@ networks:
     inception:
         name: inception
 
+volumes:
+    mariadb_data:
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: /home/qvan-der/data/mariadb
+
 services:
     mariadb:
         container_name: mariadb
-        build: ./resources/mariadb/
+        build: ./requirements/mariadb
+        restart: always
         env_file:
             - .env
+        volumes:
+            - mariadb_data:/var/lib/mysql
         networks:
             - inception
-        restart: always
+        expose:
+            - 3306
