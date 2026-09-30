@@ -1,18 +1,24 @@
-FROM debian:trixie
+FROM debian:bookworm
 
-# Update Apt packages and install mariadb-server
-RUN apt-get update -y && \
-	apt-get install -y mariadb-server
+# Update Apt packages and install mariadb-server and delete temporary downloaded packages
+RUN apt-get update -y \
+	&& apt-get install -y mariadb-server \
+	&& rm -rf /var/lib/apt/lists
 
-# Delete the temporary downloaded packages
-RUN rm -rf /var/lib/apt/lists
+# Create directories
+RUN mkdir -p /var/run/mysqld \
+	&& mkdir -p /var/log/mysql \
+	&& chown -R mysql:mysql /var/log/mysql \
+	&& chown -R mysql:mysql /var/run/mysqld \
+	&& chmod 750 /var/log/mysql \
+	&& chmod 755 /var/run/mysqld
 
-# Allow MariaDB to accept connections from other containers
-RUN sed -i 's/bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+# Replace the 50-server.cnf with the default one
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Copy the script.sh to the usr bin, and allow it to be executed
-COPY tools/script.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/script.sh
+# Copy the setup_db.sh to the usr bin, and allow it to be executed
+COPY tools/setup_db.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/setup_db.sh
 
 # Configure the container to run as an executable
-ENTRYPOINT [ "/usr/local/bin/script.sh" ]
+ENTRYPOINT [ "/usr/local/bin/setup_db.sh" ]
