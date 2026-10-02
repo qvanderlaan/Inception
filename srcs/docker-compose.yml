@@ -10,6 +10,13 @@ volumes:
             o: bind
             device: /home/qvan-der/data/mariadb
 
+    wordpress_data:
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: /home/qvan-der/data/wordpress
+
 services:
     mariadb:
         container_name: mariadb
@@ -23,3 +30,18 @@ services:
             - inception
         expose:
             - 3306
+
+    wordpress:
+        container_name: wordpress
+        build: ./requirements/wordpress
+        restart: always
+        depends_on:
+            - mariadb
+        env_file:
+            - .env
+        volumes:
+            - wordpress_data:/var/www/html
+        networks:
+            - inception
+        expose:
+            - 9000

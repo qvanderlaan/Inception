@@ -1,11 +1,11 @@
 all: up
 
 up:
-	@mkdir -p /home/qvan-der/data/mariadb
+	@mkdir -p /home/qvan-der/data/mariadb /home/qvan-der/data/wordpress
 	@docker compose -f ./srcs/docker-compose.yml up -d
 
 build:
-	@mkdir -p /home/qvan-der/data/mariadb
+	@mkdir -p /home/qvan-der/data/mariadb /home/qvan-der/data/wordpress
 	@docker compose -f ./srcs/docker-compose.yml up --build -d
 
 down:

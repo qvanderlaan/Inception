@@ -1,6 +1,4 @@
 #!/bin/bash
-
-# Exit the script if a command returns non-zero exit status.
 set -e
 
 # Initialize MySQL data directory if it doesn't exist
