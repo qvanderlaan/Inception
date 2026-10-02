@@ -45,3 +45,16 @@ services:
             - inception
         expose:
             - 9000
+
+    nginx:
+        container_name: nginx
+        build: ./requirements/nginx
+        restart: always
+        depends_on:
+            - wordpress
+        volumes:
+            - wordpress_data:/var/www/html
+        networks:
+            - inception
+        ports:
+            - "443:443"

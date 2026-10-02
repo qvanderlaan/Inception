@@ -2,7 +2,7 @@
 set -e
 
 # Initialize MySQL data directory if it doesn't exist
-if [ ! -d "/var/lib/mysql/${MYSQL_DTABASE}" ]; then
+if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
 	echo "Database directory not found. Initializing MariaDB..."
 
 	mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null
