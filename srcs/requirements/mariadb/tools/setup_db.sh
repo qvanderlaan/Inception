@@ -5,6 +5,7 @@ set -e
 if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
 	echo "Database directory not found. Initializing MariaDB..."
 
+	chown -R mysql:mysql /var/lib/mysql
 	mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null
 
 	# Start the server (no networking)
@@ -40,4 +41,4 @@ fi
 
 # Start MariaDB normally (with networking)
 echo "Starting MariaDB..."
-exec mysqld --user=mysql --datadir=/var/lib/mysql --socket=/run/mysqld/mysqld.sock
+exec mysqld --user=mysql --datadir=/var/lib/mysql --socket=/var/run/mysqld/mysqld.sock
