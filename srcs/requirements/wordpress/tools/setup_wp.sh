@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# Read secrets if available, fall back to environment variables
+if [ -f "/run/secrets/db_password" ]; then
+    MYSQL_PASSWORD=$(cat /run/secrets/db_password)
+fi
+
+if [ -f "/run/secrets/credentials" ]; then
+    WP_ADMIN_PASSWORD=$(cat /run/secrets/credentials)
+fi
+
 # Wait until MariaDB is reay to accept connections
 until mariadb -h mariadb -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;" > /dev/null 2>&1; do
     sleep 2

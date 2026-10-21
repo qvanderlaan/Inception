@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# Read secrets if available, fall back to environment variables
+if [ -f "/run/secrets/db_root_password" ]; then
+	MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+fi
+
+if [ -f "/run/secrets/db_password" ]; then
+	MYSQL_PASSWORD=$(cat /run/secrets/db_password)
+fi
+
 # Initialize MySQL data directory if it doesn't exist
 if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
 	echo "Database directory not found. Initializing MariaDB..."

@@ -17,6 +17,14 @@ volumes:
             o: bind
             device: /home/qvan-der/data/wordpress
 
+secrets:
+    db_root_password:
+        file: ../secrets/db_root_password.txt
+    db_password:
+        file: ../secrets/db_password.txt
+    credentials:
+        file: ../secrets/credentials.txt
+
 services:
     mariadb:
         container_name: mariadb
@@ -25,6 +33,9 @@ services:
         restart: always
         env_file:
             - .env
+        secrets:
+            - db_root_password
+            - db_password
         volumes:
             - mariadb_data:/var/lib/mysql
         networks:
@@ -41,6 +52,9 @@ services:
             - mariadb
         env_file:
             - .env
+        secrets:
+            - db_password
+            - credentials
         volumes:
             - wordpress_data:/var/www/html
         networks:

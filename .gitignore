@@ -1,0 +1,7 @@
+srcs/.env
+secrets/*.txt
+!secrets/.gitkeep
+
+.DS_Store
+*.swp
+*~
