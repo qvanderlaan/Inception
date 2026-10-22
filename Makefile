@@ -29,8 +29,11 @@ status-a:
 clean: down
 	@docker system prune -a --force
 
-fclean: clean
-	@docker run --rm -v /home/qvan-der/data:/cleanup debian:bookworm rm -rf /cleanup/mariadb /cleanup/wordpress
+fclean: down
+	@docker run --rm -v /home/qvan-der/data:/cleanup debian:bullseye rm -rf /cleanup/mariadb /cleanup/wordpress 2>/dev/null || sudo rm -rf /home/qvan-der/data/mariadb/* /home/qvan-der/data/wordpress/* 2>/dev/null || true
 	@docker volume prune --force
+	@docker system prune -a --force
 
-.PHONY: all up build down stop start logs status status-a clean fclean
+re: fclean all
+
+.PHONY: all up build down stop start logs status status-a clean fclean re

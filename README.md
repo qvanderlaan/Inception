@@ -271,3 +271,7 @@ Useful references for understanding the technologies used in this project includ
 - PHP-FPM documentation: https://www.php.net/manual/en/install.fpm.php
 - WordPress documentation: https://developer.wordpress.org/
 - WP-CLI documentation: https://make.wordpress.org/cli/handbook/
+
+### Use of Artificial Intelligence
+
+AI was used as a supporting tool throughout the project to review my work and help me verify my understanding of the subject. I asked questions to clarify concepts and make sure I understood the material correctly.

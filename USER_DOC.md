@@ -1,24 +1,25 @@
 # User Documentation
 
 ## Overview
-This project provides a small WordPress website infrastructure running trough Docker.
+This project provides a small WordPress website infrastructure running through Docker.
 
-The stack containsthree services:
+The stack contains three services:
 | Service | Purpose |
 | --- | --- |
 | NGINX | HTTPS entry point and reverse proxy |
 | WordPress | Website application and PHP-FPM |
 | MariaDB | WordPress database |
 
-The services communicate trough the Docker network named `inception`.
+The services communicate through the Docker network named `inception`.
 
-## Starting the repository root:
+## Starting the Project
+From the repository root:
 
 ```bash
 make
 ```
 
-This build the Docker images and starts the services in detached mode.
+This builds the Docker images and starts the services in detached mode.
 
 You can also use:
 
@@ -26,7 +27,7 @@ You can also use:
 make up
 ```
 
-## Stopping the Project:
+## Stopping the Project
 
 To stop the containers without removing them:
 ```bash
@@ -43,17 +44,17 @@ To start previously stopped containers again:
 make start
 ```
 
-## Accessing te Website
+## Accessing the Website
 
-Open:
+Open your browser to:
 
 ```text
 https://qvan-der.42.fr
 ```
 
-The website is served trough NGINX over HTTPS on port `443`.
+The website is served through NGINX over HTTPS on port `443`.
 
-The project uses a self-signed certificate, so your browser may display a certificate/security warning. This is expected for the local development setup.
+The project uses a self-signed certificate, so your browser may display a certificate/security warning. This is expected for local development.
 
 ## Accessing WordPress Administration
 
@@ -67,34 +68,33 @@ Use the administrator credentials configured for the project.
 
 ## Credentials
 
-Configuration values are loaded trough:
+Configuration values are loaded through:
 
 ```text
 srcs/.env
 ```
 
-The WordPress setup uses variables for the database connection and WordPress administrator/user configuration.
+And sensitive passwords through Docker secrets in:
 
-Credentials should be kept private and should not be committed to Git.
+```text
+secrets/
+```
 
-## Checking that the services are running
+Credentials must be kept private and must never be committed to Git.
+
+## Checking that the Services are Running
 
 Run:
 ```bash
 make status
 ```
 
-This displays the currently running Docker containers.
+This displays the currently running Docker containers:
+- `nginx`
+- `wordpress`
+- `mariadb`
 
-You should see the project containers, including:
-
-```text
-nginx
-wordpress
-mariadb
-```
-
-For all containers, including stopped ones:
+To list all containers, including stopped ones:
 
 ```bash
 make status-a
@@ -102,13 +102,13 @@ make status-a
 
 ## Checking Logs
 
-To view the logs from the Compose services:
+To view the live logs from all services:
 
 ```bash
 make logs
 ```
 
-You can also inspect an individual container directly:
+Or inspect an individual container:
 
 ```bash
 docker logs nginx
@@ -116,7 +116,7 @@ docker logs wordpress
 docker logs mariadb
 ```
 
-## persistent Data
+## Persistent Data
 
 The project stores persistent data in:
 
@@ -125,13 +125,12 @@ The project stores persistent data in:
 /home/qvan-der/data/wordpress
 ```
 
-The first directory contians MariaDB data.
-
-The second directory contains the Wordpress website files.
+The first directory contains the MariaDB database files.
+The second directory contains the WordPress website files.
 
 These directories allow the data to persist when containers are recreated.
 
-## Restarting the project
+## Restart Policy
 
 The containers are configured with:
 
@@ -139,11 +138,4 @@ The containers are configured with:
 restart: always
 ```
 
-This means Docker is configured to restart them automatically when they stop unexpectedly.
-
-To manually restart the stack, you can use:
-
-```bash
-make down
-make up
-```
+Docker will automatically restart them if they stop unexpectedly or crash.
