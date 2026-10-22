@@ -6,8 +6,12 @@ if [ -f "/run/secrets/db_password" ]; then
     MYSQL_PASSWORD=$(cat /run/secrets/db_password)
 fi
 
-if [ -f "/run/secrets/credentials" ]; then
-    WP_ADMIN_PASSWORD=$(cat /run/secrets/credentials)
+if [ -f "/run/secrets/wp_admin_password" ]; then
+    WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
+fi
+
+if [ -f "/run/secrets/wp_user_password" ]; then
+    WP_PASSWORD=$(cat /run/secrets/wp_user_password)
 fi
 
 # Wait until MariaDB is reay to accept connections
@@ -19,7 +23,7 @@ echo "Connected to MariaDB."
 # Configure WordPress if wp-config.php doesn't exist
 if [ ! -f "/var/www/html/wp-config.php" ]; then
     echo "Downloading WordPress..."
-    wp core download --allow-root
+    wp core download --allow-root --force
 
     echo "Creating wp-config.php..."
     wp config create \

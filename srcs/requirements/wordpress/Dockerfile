@@ -6,6 +6,7 @@ RUN apt-get update -y && apt-get install -y \
     php8.2-mysql \
     mariadb-client \
     curl \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Install WP-CLI

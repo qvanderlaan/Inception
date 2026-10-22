@@ -30,7 +30,7 @@ clean: down
 	@docker system prune -a --force
 
 fclean: down
-	@docker run --rm -v /home/qvan-der/data:/cleanup debian:bullseye rm -rf /cleanup/mariadb /cleanup/wordpress 2>/dev/null || sudo rm -rf /home/qvan-der/data/mariadb/* /home/qvan-der/data/wordpress/* 2>/dev/null || true
+	@docker run --rm -v /home/qvan-der/data:/cleanup debian:bookworm rm -rf /cleanup/mariadb /cleanup/wordpress 2>/dev/null || sudo rm -rf /home/qvan-der/data/mariadb/* /home/qvan-der/data/wordpress/* 2>/dev/null || true
 	@docker volume prune --force
 	@docker system prune -a --force
 

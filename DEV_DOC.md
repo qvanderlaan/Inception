@@ -12,7 +12,7 @@ Ensure the host machine (VM) has the following installed:
 ### Host DNS Configuration
 Add the custom domain name to your host's `/etc/hosts` file:
 ```bash
-sudo echo "127.0.0.1 qvan-der.42.fr" >> /etc/hosts
+echo "127.0.0.1 qvan-der.42.fr" | sudo tee -a /etc/hosts
 ```
 
 ### Configuration Files & Secrets
@@ -32,7 +32,6 @@ WP_ADMIN_USER=xxxxxxxxxxx
 WP_ADMIN_EMAIL=xxxxxxxxxxx
 WP_USER=xxxxxxxxxxx
 WP_USER_EMAIL=xxxxxxxxxxx
-WP_PASSWORD=xxxxxxxxxxx
 ```
 *(Note: `WP_ADMIN_USER` must never contain "admin" or "administrator").*
 
@@ -42,7 +41,8 @@ Create the secrets directory and the secret text files required by Docker Compos
 mkdir -p secrets
 echo "RootSecurePass123!" > secrets/db_root_password.txt
 echo "DBUserSecurePass123!" > secrets/db_password.txt
-echo "AdminSecurePass123!" > secrets/credentials.txt
+echo "AdminSecurePass123!" > secrets/wp_admin_password.txt
+echo "UserSecurePass123!" > secrets/wp_user_password.txt
 chmod 600 secrets/*.txt
 ```
 
